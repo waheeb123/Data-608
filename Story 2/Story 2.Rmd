@@ -1,0 +1,501 @@
+---
+title: "Story 2 - The Feds Dual Mandate"
+author: "waheeb Algabri"
+output:
+  pdf_document: default
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    toc: true
+    toc_float: true
+  word_document:
+    toc: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
+
+```
+
+# Introduction
+
+Inflation and its economic effects have been in the news recently. The Fed's goal has been to curb inflation (the general rise in the price of goods and services) and maintain a [low unemployment rate](https://www.investopedia.com/terms/u/unemployment.asp) -- the number of active job-seekers out of work. [The Phillips Curve](https://socialsci.libretexts.org/Bookshelves/Economics/Economics_(Boundless)/23%3A_Inflation_and_Unemployment/23.1%3A_The_Relationship_Between_Inflation_and_Unemployment#:~:text=The%20Phillips%20curve%20shows%20the%20inverse%20trade%2Doff%20between%20rates,low%2C%20inflation%20will%20be%20high.) is an economic principle stating the general negative relationship between these two variables. Simply put, economies with higher inflation tend to have lower unemployment, and vice versa.
+
+The Federal Reserve, as the United States central bank, has a dual mandate to control inflation and maintain low unemployment, which can often conflict with one another. This research evaluates the Fed's effectiveness in achieving these objectives over the past 25 years by analyzing data from the Bureau of Labor Statistics (BLS) and the Federal Reserve Economic Data (FRED). By examining changes in the Consumer Price Index (CPI) and unemployment rates in relation to rate cuts and hikes, this study aims to uncover patterns in the Fed's monetary policy responses. The findings will provide valuable insights into the central bank's ability to navigate economic challenges while fulfilling its mandate.
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(openintro)
+library(tidyverse)
+library(fredr)
+library(httr)
+library(devtools)
+library(jsonlite)
+library(lubridate)
+library(zoo)
+```
+
+# Read in API keys
+
+```{r}
+# API Key for BLS 
+bls_key <- Sys.getenv("BLS_KEY")
+
+# API Key for FRED
+fred_key <- Sys.getenv("FRED_KEY")
+
+```
+
+  
+```{r echo=FALSE}
+# API Key for BLS 
+bls_key <- "63914d4df0f240fc8da9b5cfd9dd8158"
+
+# API Key for FRED
+ fred_key <- "51ad4dae4f5ed3c82b1184efb95ca4df"
+```
+
+  
+# BLS API Data Retrieval 
+  
+```{r}
+year_ranges <- list(c('2005', '2024'), c('1985', '2005'))
+
+cpi <- data.frame()
+ue <- data.frame()
+
+for (year_range in year_ranges) {
+  request <- list(
+    'seriesid' = c('CUUR0000SA0L1E', 'LNS14000000'), 
+    'startyear' = year_range[1], 
+    'endyear' = year_range[2],
+    'registrationkey' = bls_key
+  )
+
+  # Use httr for BLS API requests
+  response <- POST("https://api.bls.gov/publicAPI/v2/timeseries/data/",
+                   body = request, encode = "json")
+  json <- fromJSON(content(response, as = "text"))
+  
+  df1 <- json$Results$series$data[[1]]
+  cpi <- rbind(cpi, df1[c('year', 'period', 'value')])
+  
+  df2 <- json$Results$series$data[[2]]
+  ue <- rbind(ue, df2[c('year', 'period', 'value')])
+}
+
+# Process the CPI data
+cpi <- cpi %>%
+  mutate(
+    month = as.numeric(str_remove(period, 'M')),
+    year = as.numeric(year),
+    value = as.numeric(value)
+  )
+
+# Process the Unemployment data
+ue <- ue %>%
+  mutate(
+    month = as.numeric(str_remove(period, 'M')),
+    year = as.numeric(year),
+    value = as.numeric(value)
+  )
+
+```
+
+# FRED API Data Retrieval
+
+```{r}
+# Set FRED API key
+fredr_set_key(fred_key)
+
+
+# Retrieve data from FRED API
+fed_funds <- fredr(
+  series_id = 'FEDFUNDS',
+  observation_start = as.Date('1985-01-01'),
+  observation_end = as.Date('2024-02-01')
+)
+
+# Processing fed funds rate
+fed_funds <- fed_funds %>%
+  mutate(
+    year = year(date),
+    month = month(date)
+  )
+
+fed_target <- fredr(
+  series_id = 'DFEDTARU',
+  observation_start = as.Date('1985-01-01'),
+  observation_end = as.Date('2024-02-01')
+)
+
+fed_target <- fed_target %>%
+  mutate(
+    year = year(date),
+    month = month(date)
+  )
+
+recession <- fredr(
+  series_id = 'JHDUSRGDPBR',
+  observation_start = as.Date('1985-01-01'),
+  observation_end = as.Date('2024-02-01')
+)
+
+recession <- recession %>%
+  mutate(
+    year = year(date),
+    month = month(date)
+  )
+
+# Recession dates
+recession_dates <- recession %>%
+  mutate(recession_start = value == 1 & lag(value) == 0,
+         recession_end = value == 1 & lead(value) == 0) %>%
+  replace_na(list(recession_start = TRUE)) %>%
+  filter(recession_start | recession_end) %>%
+  mutate(period_id = cumsum(recession_start)) %>%
+  group_by(period_id) %>%
+  summarise(start = min(date), end = max(date)) %>%
+  ungroup()
+
+```
+
+# Merging and Creating New Columns
+
+```{r}
+df <- left_join(cpi, ue, by = c('year', 'month')) %>%
+  left_join(fed_funds, by = c('year', 'month')) %>%
+  left_join(fed_target, by = 'date') %>%
+  rename(
+    cpi = value.x, ue = value.y, 
+    fed_funds = value.x.x, fed_target = value.y.y
+  ) %>%
+  select(date, cpi, ue, fed_funds, fed_target) %>%
+  arrange(date) %>%
+  mutate(
+    fed_target = if_else(is.na(fed_target), ceiling(fed_funds * 4) / 4, fed_target),
+    cpi_growth = (cpi/lag(cpi, n = 12) - 1) * 100
+  ) 
+
+head(df)
+
+```
+# clean data 
+```{r}
+df<- na.omit(df)
+head(df, 15)
+
+```
+
+```{r}
+# Check for missing values
+sum(is.na(df))
+
+```
+
+
+# Visualizations: Levels
+
+```{r, waheeb}
+df %>%
+  pivot_longer(cols = c(cpi_growth, ue, fed_funds)) %>%
+  ggplot(aes(x = date, y = value, color = name)) +
+  geom_line(size = 0.8) + 
+  geom_rect(
+    data = recession_dates, 
+    aes(xmin = start, xmax = end, ymin = 0, ymax = 15),
+    fill = 'blue', alpha = 0.3, inherit.aes = FALSE
+  ) + 
+  ggtitle('Fed Funds Rate, Unemployment and Inflation Over Time') +
+  xlab('Date') +
+  ylab('Percent (%)') + 
+  scale_color_manual(
+    values = c('cpi_growth' = 'chartreuse4', 'fed_funds' = 'dodgerblue2', 'ue' = 'coral3'), 
+    name = '', 
+    labels = c('cpi_growth' = 'Inflation', 'fed_funds' = 'Fed Funds Rate', 'ue' = 'Unemployment')
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = 'bottom',
+    panel.background = element_blank()
+  )
+
+```
+# Identify Rate & Hike Cycles
+
+```{r}
+df <- df %>%
+  mutate(
+    fed_roll_peak = rollapply(
+      fed_target, width = 52, FUN = max, 
+      align = 'center', fill = c(NA, NA, 'extend')
+    ),
+    fed_roll_valley = rollapply(
+      fed_target, width = 52, FUN = min, 
+      align = 'center', fill = c(NA, NA, 'extend')
+    ),
+    fed_status = case_when(
+      fed_target == fed_roll_peak & fed_target > lead(fed_target) ~ 'peak',
+      fed_target == fed_roll_valley & fed_target < lead(fed_target) ~ 'valley',
+      .default = 'between'
+    )
+  ) %>%
+  select(-fed_roll_peak, -fed_roll_valley)
+
+```
+
+# Fine-Tune Dates and Set Up Cycle DFs
+
+```{r, waheeb Algabri}
+cut_cycles <- data.frame(
+  start = as.Date(c('1989-05-01','1995-05-01','2000-07-01','2007-03-01','2019-07-01')),
+  end = as.Date(c('1992-12-01','1999-01-01','2004-01-01','2010-01-01','2020-04-01'))
+)
+
+hike_cycles <- data.frame(
+  start = as.Date(c('1992-12-01','1999-01-01','2004-01-01','2016-01-01','2022-02-01')),
+  end = as.Date(c('1995-05-01','2000-07-01','2007-03-01','2019-07-01','2024-01-01'))
+)
+
+ggplot() + 
+  geom_line(data = df, aes(x = date, y = ue, color = 'Unemployment')) +
+  geom_line(data = df, aes(x = date, y = cpi_growth, color = 'Inflation')) +
+  geom_rect(
+    data = cut_cycles, aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf, fill = 'Rate Cut Cycle'),
+    alpha = 0.3, inherit.aes = FALSE
+  ) +
+  geom_rect(
+    data = hike_cycles, aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf, fill = 'Rate Hike Cycle'),
+    alpha = 0.3, inherit.aes = FALSE
+  ) +
+  ggtitle('Rate Cut Versus Hike Cycles with Inflation and Unemployment') +
+  xlab('Date') +
+  ylab('Percent (%)') + 
+  scale_fill_manual(
+    values = c('Rate Cut Cycle' = 'coral3', 'Rate Hike Cycle' = 'dodgerblue2'), 
+    name = '', 
+    labels = c('Rate Cut Cycle', 'Rate Hike Cycle')
+  ) +
+  scale_color_manual(
+    values = c('Unemployment' = 'chartreuse4', 'Inflation' = 'firebrick2'),
+    name = '',
+    labels = c('Unemployment', 'Inflation')
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = 'bottom',
+    panel.background = element_blank()
+  )
+
+```
+
+
+-----------------------------------------
+
+# Calculate changes in UE and CPI after each cycle
+
+```{r}
+for (row in 1:nrow(cut_cycles)) {
+  
+  time_to_change <- as.period(hike_cycles[row, 2] - cut_cycles[row, 2])
+  obs_period <- if_else(time_to_change < months(60), time_to_change, months(60))
+  
+  cut_cycles[row, 'obs_period_end'] <- cut_cycles[row, 2] + obs_period
+  
+  cut_cycles[row, 'ff_change'] <- 
+    df[df$date == cut_cycles[row, 2], 'fed_funds'] - 
+    df[df$date == cut_cycles[row, 1], 'fed_funds']
+  
+  cut_cycles[row, 'infl_change'] <- 
+    df[df$date == cut_cycles[row, 2] + obs_period, 'cpi_growth'] -
+    df[df$date == cut_cycles[row, 2], 'cpi_growth']
+  
+  cut_cycles[row, 'ue_change'] <- 
+    df[df$date == cut_cycles[row, 2] + obs_period, 'ue'] - 
+    df[df$date == cut_cycles[row, 2], 'ue']
+}
+
+for (row in 1:nrow(hike_cycles)) {
+  
+  if (row == nrow(hike_cycles)) {
+    obs_period <- 0
+    adjustment <- 1
+  } else {
+    time_to_change <- as.period(cut_cycles[row+1, 2] - hike_cycles[row, 2])
+    obs_period <- if_else(time_to_change < months(60), time_to_change, months(60))
+    adjustment <- 0
+  }
+  
+  hike_cycles[row, 'obs_period_end'] <- hike_cycles[row, 2] + obs_period
+  
+  hike_cycles[row, 'ff_change'] <- 
+    df[df$date == hike_cycles[row, 2], 'fed_funds'] - 
+    df[df$date == hike_cycles[row, 1], 'fed_funds']
+  
+  hike_cycles[row, 'infl_change'] <- 
+    df[df$date == hike_cycles[row, 2] + obs_period, 'cpi_growth'] - 
+    df[df$date == hike_cycles[row, 2 - adjustment], 'cpi_growth']
+  
+  hike_cycles[row, 'ue_change'] <- 
+    df[df$date == hike_cycles[row, 2] + obs_period, 'ue'] -
+    df[df$date == hike_cycles[row, 2 - adjustment], 'ue']
+}
+
+cut_cycles <- cut_cycles %>%
+  mutate(label = str_c(
+    'Cut Cycle: ', format(start, "%b-%y"),
+    ' – ', format(end, "%b-%y"),
+    ' / Observation Period: ', format(end, "%b-%y"), 
+    ' – ', format(obs_period_end, "%b-%y")
+  ))
+
+hike_cycles <- hike_cycles %>%
+  mutate(label = str_c(
+    'Hike Cycle: ', format(start, "%b-%y"),
+    ' – ', format(end, "%b-%y"),
+    ' / Observation Period: ', format(end, "%b-%y"), 
+    ' – ', format(obs_period_end, "%b-%y")
+  ))
+
+hike_cycles[5,7] <- 'Hike Cycle: Feb-22 – Jan-24 / Observation Period: Feb-22 – Jan-24'
+
+cut_cycles
+hike_cycles
+```
+
+Plot separate Bar Charts
+
+```{r}
+cut_plot <- cut_cycles %>%
+  pivot_longer(cols = c(ff_change, ue_change)) %>% 
+  mutate(
+    end = as.character(year(end)),
+    value = (value)
+  ) %>%
+  ggplot(aes(end, value, fill = name)) +
+  geom_col(position = position_dodge()) +
+  ggtitle('Fed Funds Rate Hikes and Resulting Changes in Unemployment') +
+  xlab(NULL) +
+  ylab('Change (%)') + 
+  scale_fill_manual(
+    values = c('ff_change' = 'dodgerblue2', 'ue_change' = 'firebrick2'), 
+    name = NULL, 
+    labels = c('ff_change' = 'Change in Fed Funds Rate', 'ue_change' = 'Change in Unemployment')
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.background = element_blank(),
+    legend.position = 'bottom', legend.box = 'vertical',
+    axis.ticks.x = element_blank()
+  )
+
+hike_plot <- hike_cycles %>%
+  mutate(
+    end = as.character(year(end)),
+    infl_change = (infl_change)
+  ) %>%
+  pivot_longer(cols = c(ff_change, infl_change)) %>% 
+  ggplot(aes(end, value, fill = name)) +
+  geom_col(position = position_dodge()) +
+  ggtitle('Fed Funds Rate Hikes and Resulting Changes in Inflation') +
+  xlab(NULL) +
+  ylab('Change (%)') + 
+  scale_fill_manual(
+    values = c('ff_change' = 'dodgerblue2', 'infl_change' = 'chartreuse4'), 
+    name = NULL, 
+    labels = c('ff_change' = 'Change in Fed Funds Rate', 'infl_change' = 'Change in Inflation')
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.background = element_blank(),
+    legend.position = 'bottom', legend.box = 'vertical',
+    axis.ticks.x = element_blank()
+  )
+
+cut_plot
+hike_plot
+```
+
+# Final Plot
+
+This final plots shows that the Fed typically succeeds in its dual mandate. After each cut cycle, we typically see unemployment decrease. After each hike cycle, we typically see inflation decrease. This plot, however, also shows that contradictory nature of the dual mandate. After many cut cycles, we see some increase in inflation, and after many hike cycles, we see some increase in unemployment. Historical context is important here, as sometimes the Fed may intend to drive up some unemployment to "cool" the economy. Similarly, it may sometimes intend to increase inflation during periods of high disinflation. Regardless, this plot helps us determine that cuts typically drive higher employment and hikes typically drive lower inflation.
+
+```{r fig.width=7, fig.height=8}
+caption <- str_c(
+  'NOTE:',
+  '\n Each year corresponds to a period of rate cuts / hikes and a period of observation for unemployment and inflation.',
+  '\n The details of each cycle are provided below.'
+)
+  
+for (row in 1:nrow(cut_cycles)) {
+  cut_caption <- str_c(year(cut_cycles[row, 'end']), ' – ', cut_cycles[row, 'label'])
+  caption <- str_c(caption, '\n     ', cut_caption)
+  
+  hike_caption <- str_c(year(hike_cycles[row, 'end']), ' – ', hike_cycles[row, 'label'])
+  caption <- str_c(caption, '\n     ', hike_caption)
+}
+
+caption <- str_c(caption, '\n Sources: Fed Funds Rates data are from FRED. Inflation and Unemployment data are from BLS.')
+
+final_plot <- rbind(cut_cycles, hike_cycles) %>%
+  pivot_longer(cols = c(ff_change, ue_change, infl_change)) %>%
+  filter(!is.na(value)) %>%
+  mutate(label = fct_reorder(label, end), end = as.character(year(end))) %>%
+  arrange(end) %>%
+  ggplot(aes(x = end, y = value, fill = name)) +
+  geom_col(position = position_dodge(), width = 0.75) +
+  labs(
+    x = 'End of Rate Cycle (Year)', y = 'Change (%)', 
+    title = 'Fed Funds Rate Cuts / Hikes and Resulting Changes in Unemployment / Inflation',
+    caption = caption
+  ) +
+  scale_fill_manual(
+    values = c(
+      'ff_change' = 'azure2',
+      'ue_change' = 'wheat2',
+      'infl_change' = 'sienna1'
+    ),
+    labels = c(
+      'ff_change' = 'Change in Fed Funds Rate',
+      'ue_change' = 'Change in Unemployment',
+      'infl_change' = 'Change in Inflation'
+    ), 
+    name = NULL,
+  ) +
+  scale_x_discrete(position = 'bottom') +
+  geom_text(
+    aes(label = round(value,1), y = ifelse(value > 0, value + 1, value - 1)),
+    position = position_dodge(0.8),
+    color = "black", size = 3.2
+  ) +
+  theme(
+    plot.title.position = 'plot',
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0),
+    panel.background = element_blank(),
+    legend.position = 'bottom', legend.box = 'vertical',
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(margin = margin(t = 15, b = 10))
+  )
+
+final_plot
+```
+
+```{r}
+ggsave('story2_waheeb_finalPlot.png', plot = final_plot, width = 7, height = 8, dpi = 500)
+```
+
+# Conclusion
+
+This analysis highlights the Federal Reserve's attempts to fulfill its dual mandate of maintaining price stability and maximizing employment through its monetary policy decisions over the past several decades. By analyzing both cut and hike cycles, we can observe clear patterns in the Fed's actions and their impacts on unemployment and inflation.
+
+After each rate cut cycle, the data shows a consistent reduction in unemployment, indicating that cuts are typically associated with economic stimulus and increased job opportunities. However, these cut cycles also tend to contribute to inflationary pressures, as seen in the modest rise in inflation following many cut periods. This aligns with economic theory, as lower interest rates generally encourage consumer spending and investment, which can spur inflation.
+
+On the other hand, hike cycles are often followed by a reduction in inflation, as higher interest rates curb borrowing and spending, effectively cooling the economy. The trade-off, however, is that hike cycles frequently lead to increases in unemployment, reflecting the Fed's delicate balancing act in managing these two competing priorities.
+
+The results also illustrate the contradictory nature of the Fed’s dual mandate. While each action—cutting or hiking rates—tends to achieve its immediate goal (stimulating employment or reducing inflation), it often comes at the cost of the other. The cyclical nature of these effects, combined with external factors such as recessions and global events, complicates the Fed's mission.
+
+Ultimately, the data supports the conclusion that the Federal Reserve typically succeeds in influencing unemployment and inflation as intended, though the inherent tension between these goals suggests that no single policy can achieve both perfectly at all times. Understanding these trade-offs, as well as the historical context surrounding each cycle, is essential for assessing the Fed's overall effectiveness in meeting its objectives.

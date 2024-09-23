@@ -1,0 +1,744 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Story 2 - The Feds Dual Mandate},
+  pdfauthor={waheeb Algabri},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Story 2 - The Feds Dual Mandate}
+\author{waheeb Algabri}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}\label{introduction}
+
+Inflation and its economic effects have been in the news recently. The
+Fed's goal has been to curb inflation (the general rise in the price of
+goods and services) and maintain a
+\href{https://www.investopedia.com/terms/u/unemployment.asp}{low
+unemployment rate} -- the number of active job-seekers out of work.
+\href{https://socialsci.libretexts.org/Bookshelves/Economics/Economics_(Boundless)/23\%3A_Inflation_and_Unemployment/23.1\%3A_The_Relationship_Between_Inflation_and_Unemployment\#:~:text=The\%20Phillips\%20curve\%20shows\%20the\%20inverse\%20trade\%2Doff\%20between\%20rates,low\%2C\%20inflation\%20will\%20be\%20high.}{The
+Phillips Curve} is an economic principle stating the general negative
+relationship between these two variables. Simply put, economies with
+higher inflation tend to have lower unemployment, and vice versa.
+
+The Federal Reserve, as the United States central bank, has a dual
+mandate to control inflation and maintain low unemployment, which can
+often conflict with one another. This research evaluates the Fed's
+effectiveness in achieving these objectives over the past 25 years by
+analyzing data from the Bureau of Labor Statistics (BLS) and the Federal
+Reserve Economic Data (FRED). By examining changes in the Consumer Price
+Index (CPI) and unemployment rates in relation to rate cuts and hikes,
+this study aims to uncover patterns in the Fed's monetary policy
+responses. The findings will provide valuable insights into the central
+bank's ability to navigate economic challenges while fulfilling its
+mandate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(openintro)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(fredr)}
+\FunctionTok{library}\NormalTok{(httr)}
+\FunctionTok{library}\NormalTok{(devtools)}
+\FunctionTok{library}\NormalTok{(jsonlite)}
+\FunctionTok{library}\NormalTok{(lubridate)}
+\FunctionTok{library}\NormalTok{(zoo)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Read in API keys}\label{read-in-api-keys}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# API Key for BLS }
+\NormalTok{bls\_key }\OtherTok{\textless{}{-}} \FunctionTok{Sys.getenv}\NormalTok{(}\StringTok{"BLS\_KEY"}\NormalTok{)}
+
+\CommentTok{\# API Key for FRED}
+\NormalTok{fred\_key }\OtherTok{\textless{}{-}} \FunctionTok{Sys.getenv}\NormalTok{(}\StringTok{"FRED\_KEY"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{BLS API Data Retrieval}\label{bls-api-data-retrieval}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{year\_ranges }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}2005\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2024\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1985\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2005\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{cpi }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{()}
+\NormalTok{ue }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{()}
+
+\ControlFlowTok{for}\NormalTok{ (year\_range }\ControlFlowTok{in}\NormalTok{ year\_ranges) \{}
+\NormalTok{  request }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
+    \StringTok{\textquotesingle{}seriesid\textquotesingle{}} \OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}CUUR0000SA0L1E\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}LNS14000000\textquotesingle{}}\NormalTok{), }
+    \StringTok{\textquotesingle{}startyear\textquotesingle{}} \OtherTok{=}\NormalTok{ year\_range[}\DecValTok{1}\NormalTok{], }
+    \StringTok{\textquotesingle{}endyear\textquotesingle{}} \OtherTok{=}\NormalTok{ year\_range[}\DecValTok{2}\NormalTok{],}
+    \StringTok{\textquotesingle{}registrationkey\textquotesingle{}} \OtherTok{=}\NormalTok{ bls\_key}
+\NormalTok{  )}
+
+  \CommentTok{\# Use httr for BLS API requests}
+\NormalTok{  response }\OtherTok{\textless{}{-}} \FunctionTok{POST}\NormalTok{(}\StringTok{"https://api.bls.gov/publicAPI/v2/timeseries/data/"}\NormalTok{,}
+                   \AttributeTok{body =}\NormalTok{ request, }\AttributeTok{encode =} \StringTok{"json"}\NormalTok{)}
+\NormalTok{  json }\OtherTok{\textless{}{-}} \FunctionTok{fromJSON}\NormalTok{(}\FunctionTok{content}\NormalTok{(response, }\AttributeTok{as =} \StringTok{"text"}\NormalTok{))}
+  
+\NormalTok{  df1 }\OtherTok{\textless{}{-}}\NormalTok{ json}\SpecialCharTok{$}\NormalTok{Results}\SpecialCharTok{$}\NormalTok{series}\SpecialCharTok{$}\NormalTok{data[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  cpi }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cpi, df1[}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}period\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}value\textquotesingle{}}\NormalTok{)])}
+  
+\NormalTok{  df2 }\OtherTok{\textless{}{-}}\NormalTok{ json}\SpecialCharTok{$}\NormalTok{Results}\SpecialCharTok{$}\NormalTok{series}\SpecialCharTok{$}\NormalTok{data[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  ue }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(ue, df2[}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}period\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}value\textquotesingle{}}\NormalTok{)])}
+\NormalTok{\}}
+
+\CommentTok{\# Process the CPI data}
+\NormalTok{cpi }\OtherTok{\textless{}{-}}\NormalTok{ cpi }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{month =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_remove}\NormalTok{(period, }\StringTok{\textquotesingle{}M\textquotesingle{}}\NormalTok{)),}
+    \AttributeTok{year =} \FunctionTok{as.numeric}\NormalTok{(year),}
+    \AttributeTok{value =} \FunctionTok{as.numeric}\NormalTok{(value)}
+\NormalTok{  )}
+
+\CommentTok{\# Process the Unemployment data}
+\NormalTok{ue }\OtherTok{\textless{}{-}}\NormalTok{ ue }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{month =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_remove}\NormalTok{(period, }\StringTok{\textquotesingle{}M\textquotesingle{}}\NormalTok{)),}
+    \AttributeTok{year =} \FunctionTok{as.numeric}\NormalTok{(year),}
+    \AttributeTok{value =} \FunctionTok{as.numeric}\NormalTok{(value)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\section{FRED API Data Retrieval}\label{fred-api-data-retrieval}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set FRED API key}
+\FunctionTok{fredr\_set\_key}\NormalTok{(fred\_key)}
+
+
+\CommentTok{\# Retrieve data from FRED API}
+\NormalTok{fed\_funds }\OtherTok{\textless{}{-}} \FunctionTok{fredr}\NormalTok{(}
+  \AttributeTok{series\_id =} \StringTok{\textquotesingle{}FEDFUNDS\textquotesingle{}}\NormalTok{,}
+  \AttributeTok{observation\_start =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1985{-}01{-}01\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{observation\_end =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}2024{-}02{-}01\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{\# Processing fed funds rate}
+\NormalTok{fed\_funds }\OtherTok{\textless{}{-}}\NormalTok{ fed\_funds }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{year =} \FunctionTok{year}\NormalTok{(date),}
+    \AttributeTok{month =} \FunctionTok{month}\NormalTok{(date)}
+\NormalTok{  )}
+
+\NormalTok{fed\_target }\OtherTok{\textless{}{-}} \FunctionTok{fredr}\NormalTok{(}
+  \AttributeTok{series\_id =} \StringTok{\textquotesingle{}DFEDTARU\textquotesingle{}}\NormalTok{,}
+  \AttributeTok{observation\_start =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1985{-}01{-}01\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{observation\_end =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}2024{-}02{-}01\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{fed\_target }\OtherTok{\textless{}{-}}\NormalTok{ fed\_target }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{year =} \FunctionTok{year}\NormalTok{(date),}
+    \AttributeTok{month =} \FunctionTok{month}\NormalTok{(date)}
+\NormalTok{  )}
+
+\NormalTok{recession }\OtherTok{\textless{}{-}} \FunctionTok{fredr}\NormalTok{(}
+  \AttributeTok{series\_id =} \StringTok{\textquotesingle{}JHDUSRGDPBR\textquotesingle{}}\NormalTok{,}
+  \AttributeTok{observation\_start =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1985{-}01{-}01\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{observation\_end =} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}2024{-}02{-}01\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{recession }\OtherTok{\textless{}{-}}\NormalTok{ recession }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{year =} \FunctionTok{year}\NormalTok{(date),}
+    \AttributeTok{month =} \FunctionTok{month}\NormalTok{(date)}
+\NormalTok{  )}
+
+\CommentTok{\# Recession dates}
+\NormalTok{recession\_dates }\OtherTok{\textless{}{-}}\NormalTok{ recession }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{recession\_start =}\NormalTok{ value }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{\&} \FunctionTok{lag}\NormalTok{(value) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{,}
+         \AttributeTok{recession\_end =}\NormalTok{ value }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{\&} \FunctionTok{lead}\NormalTok{(value) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{recession\_start =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(recession\_start }\SpecialCharTok{|}\NormalTok{ recession\_end) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{period\_id =} \FunctionTok{cumsum}\NormalTok{(recession\_start)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(period\_id) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{start =} \FunctionTok{min}\NormalTok{(date), }\AttributeTok{end =} \FunctionTok{max}\NormalTok{(date)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Merging and Creating New
+Columns}\label{merging-and-creating-new-columns}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(cpi, ue, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}month\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(fed\_funds, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}month\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(fed\_target, }\AttributeTok{by =} \StringTok{\textquotesingle{}date\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}
+    \AttributeTok{cpi =}\NormalTok{ value.x, }\AttributeTok{ue =}\NormalTok{ value.y, }
+    \AttributeTok{fed\_funds =}\NormalTok{ value.x.x, }\AttributeTok{fed\_target =}\NormalTok{ value.y.y}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(date, cpi, ue, fed\_funds, fed\_target) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(date) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{fed\_target =} \FunctionTok{if\_else}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(fed\_target), }\FunctionTok{ceiling}\NormalTok{(fed\_funds }\SpecialCharTok{*} \DecValTok{4}\NormalTok{) }\SpecialCharTok{/} \DecValTok{4}\NormalTok{, fed\_target),}
+    \AttributeTok{cpi\_growth =}\NormalTok{ (cpi}\SpecialCharTok{/}\FunctionTok{lag}\NormalTok{(cpi, }\AttributeTok{n =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}
+\NormalTok{  ) }
+
+\FunctionTok{head}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         date   cpi  ue fed_funds fed_target cpi_growth
+## 1 1985-01-01 106.9 7.3      8.35       8.50         NA
+## 2 1985-02-01 107.4 7.2      8.50       8.50         NA
+## 3 1985-03-01 107.9 7.2      8.58       8.75         NA
+## 4 1985-04-01 108.2 7.3      8.27       8.50         NA
+## 5 1985-05-01 108.6 7.2      7.97       8.00         NA
+## 6 1985-06-01 108.8 7.4      7.53       7.75         NA
+\end{verbatim}
+
+\section{clean data}\label{clean-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(df)}
+\FunctionTok{head}\NormalTok{(df, }\DecValTok{15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          date   cpi  ue fed_funds fed_target cpi_growth
+## 13 1986-01-01 111.6 6.7      8.14       8.25   4.396632
+## 14 1986-02-01 111.9 7.2      7.86       8.00   4.189944
+## 15 1986-03-01 112.3 7.2      7.48       7.50   4.077850
+## 16 1986-04-01 112.7 7.1      6.99       7.00   4.158965
+## 17 1986-05-01 112.9 7.2      6.85       7.00   3.959484
+## 18 1986-06-01 113.1 7.2      6.92       7.00   3.952206
+## 19 1986-07-01 113.5 7.0      6.56       6.75   4.128440
+## 20 1986-08-01 113.8 6.9      6.17       6.25   4.021938
+## 21 1986-09-01 114.5 7.0      5.89       6.00   4.090909
+## 22 1986-10-01 115.1 7.0      5.85       6.00   3.974706
+## 23 1986-11-01 115.4 6.9      6.04       6.25   3.776978
+## 24 1986-12-01 115.5 6.6      6.91       7.00   3.773585
+## 25 1987-01-01 115.8 6.6      6.43       6.50   3.763441
+## 26 1987-02-01 116.1 6.6      6.10       6.25   3.753351
+## 27 1987-03-01 116.8 6.6      6.13       6.25   4.007124
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check for missing values}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(df))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\section{Visualizations: Levels}\label{visualizations-levels}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{c}\NormalTok{(cpi\_growth, ue, fed\_funds)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date, }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{color =}\NormalTok{ name)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.8}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_rect}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ recession\_dates, }
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{xmin =}\NormalTok{ start, }\AttributeTok{xmax =}\NormalTok{ end, }\AttributeTok{ymin =} \DecValTok{0}\NormalTok{, }\AttributeTok{ymax =} \DecValTok{15}\NormalTok{),}
+    \AttributeTok{fill =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{inherit.aes =} \ConstantTok{FALSE}
+\NormalTok{  ) }\SpecialCharTok{+} 
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}Fed Funds Rate, Unemployment and Inflation Over Time\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Percent (\%)\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}chartreuse4\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}dodgerblue2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ue\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}coral3\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{name =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, }
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Inflation\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Fed Funds Rate\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ue\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Unemployment\textquotesingle{}}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{legend.position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Story-2_files/figure-latex/waheeb-1.pdf} \# Identify
+Rate \& Hike Cycles
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{fed\_roll\_peak =} \FunctionTok{rollapply}\NormalTok{(}
+\NormalTok{      fed\_target, }\AttributeTok{width =} \DecValTok{52}\NormalTok{, }\AttributeTok{FUN =}\NormalTok{ max, }
+      \AttributeTok{align =} \StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{fill =} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}extend\textquotesingle{}}\NormalTok{)}
+\NormalTok{    ),}
+    \AttributeTok{fed\_roll\_valley =} \FunctionTok{rollapply}\NormalTok{(}
+\NormalTok{      fed\_target, }\AttributeTok{width =} \DecValTok{52}\NormalTok{, }\AttributeTok{FUN =}\NormalTok{ min, }
+      \AttributeTok{align =} \StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{fill =} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}extend\textquotesingle{}}\NormalTok{)}
+\NormalTok{    ),}
+    \AttributeTok{fed\_status =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      fed\_target }\SpecialCharTok{==}\NormalTok{ fed\_roll\_peak }\SpecialCharTok{\&}\NormalTok{ fed\_target }\SpecialCharTok{\textgreater{}} \FunctionTok{lead}\NormalTok{(fed\_target) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}peak\textquotesingle{}}\NormalTok{,}
+\NormalTok{      fed\_target }\SpecialCharTok{==}\NormalTok{ fed\_roll\_valley }\SpecialCharTok{\&}\NormalTok{ fed\_target }\SpecialCharTok{\textless{}} \FunctionTok{lead}\NormalTok{(fed\_target) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}valley\textquotesingle{}}\NormalTok{,}
+      \AttributeTok{.default =} \StringTok{\textquotesingle{}between\textquotesingle{}}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{fed\_roll\_peak, }\SpecialCharTok{{-}}\NormalTok{fed\_roll\_valley)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Fine-Tune Dates and Set Up Cycle
+DFs}\label{fine-tune-dates-and-set-up-cycle-dfs}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cut\_cycles }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{start =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1989{-}05{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}1995{-}05{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2000{-}07{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2007{-}03{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2019{-}07{-}01\textquotesingle{}}\NormalTok{)),}
+  \AttributeTok{end =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1992{-}12{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}1999{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2004{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2010{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2020{-}04{-}01\textquotesingle{}}\NormalTok{))}
+\NormalTok{)}
+
+\NormalTok{hike\_cycles }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{start =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1992{-}12{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}1999{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2004{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2016{-}01{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2022{-}02{-}01\textquotesingle{}}\NormalTok{)),}
+  \AttributeTok{end =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1995{-}05{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2000{-}07{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2007{-}03{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2019{-}07{-}01\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2024{-}01{-}01\textquotesingle{}}\NormalTok{))}
+\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date, }\AttributeTok{y =}\NormalTok{ ue, }\AttributeTok{color =} \StringTok{\textquotesingle{}Unemployment\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date, }\AttributeTok{y =}\NormalTok{ cpi\_growth, }\AttributeTok{color =} \StringTok{\textquotesingle{}Inflation\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_rect}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ cut\_cycles, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{xmin =}\NormalTok{ start, }\AttributeTok{xmax =}\NormalTok{ end, }\AttributeTok{ymin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{ymax =} \ConstantTok{Inf}\NormalTok{, }\AttributeTok{fill =} \StringTok{\textquotesingle{}Rate Cut Cycle\textquotesingle{}}\NormalTok{),}
+    \AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{inherit.aes =} \ConstantTok{FALSE}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_rect}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ hike\_cycles, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{xmin =}\NormalTok{ start, }\AttributeTok{xmax =}\NormalTok{ end, }\AttributeTok{ymin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{ymax =} \ConstantTok{Inf}\NormalTok{, }\AttributeTok{fill =} \StringTok{\textquotesingle{}Rate Hike Cycle\textquotesingle{}}\NormalTok{),}
+    \AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{inherit.aes =} \ConstantTok{FALSE}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}Rate Cut Versus Hike Cycles with Inflation and Unemployment\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Percent (\%)\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Rate Cut Cycle\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}coral3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Rate Hike Cycle\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}dodgerblue2\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{name =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, }
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Rate Cut Cycle\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Rate Hike Cycle\textquotesingle{}}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Unemployment\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}chartreuse4\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Inflation\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}firebrick2\textquotesingle{}}\NormalTok{),}
+    \AttributeTok{name =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Unemployment\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Inflation\textquotesingle{}}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{legend.position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Story-2_files/figure-latex/waheeb Algabri-1.pdf}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Calculate changes in UE and CPI after each
+cycle}\label{calculate-changes-in-ue-and-cpi-after-each-cycle}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (row }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cut\_cycles)) \{}
+  
+\NormalTok{  time\_to\_change }\OtherTok{\textless{}{-}} \FunctionTok{as.period}\NormalTok{(hike\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{])}
+\NormalTok{  obs\_period }\OtherTok{\textless{}{-}} \FunctionTok{if\_else}\NormalTok{(time\_to\_change }\SpecialCharTok{\textless{}} \FunctionTok{months}\NormalTok{(}\DecValTok{60}\NormalTok{), time\_to\_change, }\FunctionTok{months}\NormalTok{(}\DecValTok{60}\NormalTok{))}
+  
+\NormalTok{  cut\_cycles[row, }\StringTok{\textquotesingle{}obs\_period\_end\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period}
+  
+\NormalTok{  cut\_cycles[row, }\StringTok{\textquotesingle{}ff\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{], }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{1}\NormalTok{], }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}}\NormalTok{]}
+  
+\NormalTok{  cut\_cycles[row, }\StringTok{\textquotesingle{}infl\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period, }\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}}
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{], }\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}}\NormalTok{]}
+  
+\NormalTok{  cut\_cycles[row, }\StringTok{\textquotesingle{}ue\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period, }\StringTok{\textquotesingle{}ue\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ cut\_cycles[row, }\DecValTok{2}\NormalTok{], }\StringTok{\textquotesingle{}ue\textquotesingle{}}\NormalTok{]}
+\NormalTok{\}}
+
+\ControlFlowTok{for}\NormalTok{ (row }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(hike\_cycles)) \{}
+  
+  \ControlFlowTok{if}\NormalTok{ (row }\SpecialCharTok{==} \FunctionTok{nrow}\NormalTok{(hike\_cycles)) \{}
+\NormalTok{    obs\_period }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{    adjustment }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    time\_to\_change }\OtherTok{\textless{}{-}} \FunctionTok{as.period}\NormalTok{(cut\_cycles[row}\SpecialCharTok{+}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ hike\_cycles[row, }\DecValTok{2}\NormalTok{])}
+\NormalTok{    obs\_period }\OtherTok{\textless{}{-}} \FunctionTok{if\_else}\NormalTok{(time\_to\_change }\SpecialCharTok{\textless{}} \FunctionTok{months}\NormalTok{(}\DecValTok{60}\NormalTok{), time\_to\_change, }\FunctionTok{months}\NormalTok{(}\DecValTok{60}\NormalTok{))}
+\NormalTok{    adjustment }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  \}}
+  
+\NormalTok{  hike\_cycles[row, }\StringTok{\textquotesingle{}obs\_period\_end\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ hike\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period}
+  
+\NormalTok{  hike\_cycles[row, }\StringTok{\textquotesingle{}ff\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{2}\NormalTok{], }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{1}\NormalTok{], }\StringTok{\textquotesingle{}fed\_funds\textquotesingle{}}\NormalTok{]}
+  
+\NormalTok{  hike\_cycles[row, }\StringTok{\textquotesingle{}infl\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period, }\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{2} \SpecialCharTok{{-}}\NormalTok{ adjustment], }\StringTok{\textquotesingle{}cpi\_growth\textquotesingle{}}\NormalTok{]}
+  
+\NormalTok{  hike\_cycles[row, }\StringTok{\textquotesingle{}ue\_change\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ obs\_period, }\StringTok{\textquotesingle{}ue\textquotesingle{}}\NormalTok{] }\SpecialCharTok{{-}}
+\NormalTok{    df[df}\SpecialCharTok{$}\NormalTok{date }\SpecialCharTok{==}\NormalTok{ hike\_cycles[row, }\DecValTok{2} \SpecialCharTok{{-}}\NormalTok{ adjustment], }\StringTok{\textquotesingle{}ue\textquotesingle{}}\NormalTok{]}
+\NormalTok{\}}
+
+\NormalTok{cut\_cycles }\OtherTok{\textless{}{-}}\NormalTok{ cut\_cycles }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{label =} \FunctionTok{str\_c}\NormalTok{(}
+    \StringTok{\textquotesingle{}Cut Cycle: \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(start, }\StringTok{"\%b{-}\%y"}\NormalTok{),}
+    \StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(end, }\StringTok{"\%b{-}\%y"}\NormalTok{),}
+    \StringTok{\textquotesingle{} / Observation Period: \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(end, }\StringTok{"\%b{-}\%y"}\NormalTok{), }
+    \StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(obs\_period\_end, }\StringTok{"\%b{-}\%y"}\NormalTok{)}
+\NormalTok{  ))}
+
+\NormalTok{hike\_cycles }\OtherTok{\textless{}{-}}\NormalTok{ hike\_cycles }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{label =} \FunctionTok{str\_c}\NormalTok{(}
+    \StringTok{\textquotesingle{}Hike Cycle: \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(start, }\StringTok{"\%b{-}\%y"}\NormalTok{),}
+    \StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(end, }\StringTok{"\%b{-}\%y"}\NormalTok{),}
+    \StringTok{\textquotesingle{} / Observation Period: \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(end, }\StringTok{"\%b{-}\%y"}\NormalTok{), }
+    \StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, }\FunctionTok{format}\NormalTok{(obs\_period\_end, }\StringTok{"\%b{-}\%y"}\NormalTok{)}
+\NormalTok{  ))}
+
+\NormalTok{hike\_cycles[}\DecValTok{5}\NormalTok{,}\DecValTok{7}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}Hike Cycle: Feb{-}22 – Jan{-}24 / Observation Period: Feb{-}22 – Jan{-}24\textquotesingle{}}
+
+\NormalTok{cut\_cycles}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        start        end obs_period_end ff_change infl_change ue_change
+## 1 1989-05-01 1992-12-01     1995-05-01     -6.89 -0.24717665      -1.8
+## 2 1995-05-01 1999-01-01     2000-07-01     -1.38  0.09242114      -0.3
+## 3 2000-07-01 2004-01-01     2007-03-01     -5.54  1.30441157      -1.3
+## 4 2007-03-01 2010-01-01     2015-01-01     -5.15  0.09528951      -4.1
+## 5 2019-07-01 2020-04-01     2024-01-01     -2.35  2.42958952     -11.1
+##                                                              label
+## 1 Cut Cycle: May-89 – Dec-92 / Observation Period: Dec-92 – May-95
+## 2 Cut Cycle: May-95 – Jan-99 / Observation Period: Jan-99 – Jul-00
+## 3 Cut Cycle: Jul-00 – Jan-04 / Observation Period: Jan-04 – Mar-07
+## 4 Cut Cycle: Mar-07 – Jan-10 / Observation Period: Jan-10 – Jan-15
+## 5 Cut Cycle: Jul-19 – Apr-20 / Observation Period: Apr-20 – Jan-24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hike\_cycles}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        start        end obs_period_end ff_change infl_change ue_change
+## 1 1992-12-01 1995-05-01     1999-01-01      3.09  -0.6820633      -1.3
+## 2 1999-01-01 2000-07-01     2004-01-01      1.91  -1.3402528       1.7
+## 3 2004-01-01 2007-03-01     2010-01-01      4.26  -0.8978150       5.4
+## 4 2016-01-01 2019-07-01     2020-04-01      2.06  -0.7778993      11.1
+## 5 2022-02-01 2024-01-01     2024-01-01      5.25  -2.5524621      -0.1
+##                                                               label
+## 1 Hike Cycle: Dec-92 – May-95 / Observation Period: May-95 – Jan-99
+## 2 Hike Cycle: Jan-99 – Jul-00 / Observation Period: Jul-00 – Jan-04
+## 3 Hike Cycle: Jan-04 – Mar-07 / Observation Period: Mar-07 – Jan-10
+## 4 Hike Cycle: Jan-16 – Jul-19 / Observation Period: Jul-19 – Apr-20
+## 5 Hike Cycle: Feb-22 – Jan-24 / Observation Period: Feb-22 – Jan-24
+\end{verbatim}
+
+Plot separate Bar Charts
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cut\_plot }\OtherTok{\textless{}{-}}\NormalTok{ cut\_cycles }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{c}\NormalTok{(ff\_change, ue\_change)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{end =} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{year}\NormalTok{(end)),}
+    \AttributeTok{value =}\NormalTok{ (value)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(end, value, }\AttributeTok{fill =}\NormalTok{ name)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}Fed Funds Rate Hikes and Resulting Changes in Unemployment\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Change (\%)\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}dodgerblue2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ue\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}firebrick2\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{name =} \ConstantTok{NULL}\NormalTok{, }
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Fed Funds Rate\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ue\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Unemployment\textquotesingle{}}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{legend.position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{, }\AttributeTok{legend.box =} \StringTok{\textquotesingle{}vertical\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
+
+\NormalTok{hike\_plot }\OtherTok{\textless{}{-}}\NormalTok{ hike\_cycles }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{end =} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{year}\NormalTok{(end)),}
+    \AttributeTok{infl\_change =}\NormalTok{ (infl\_change)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{c}\NormalTok{(ff\_change, infl\_change)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(end, value, }\AttributeTok{fill =}\NormalTok{ name)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}Fed Funds Rate Hikes and Resulting Changes in Inflation\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Change (\%)\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}dodgerblue2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}infl\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}chartreuse4\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{name =} \ConstantTok{NULL}\NormalTok{, }
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Fed Funds Rate\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}infl\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Inflation\textquotesingle{}}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{legend.position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{, }\AttributeTok{legend.box =} \StringTok{\textquotesingle{}vertical\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
+
+\NormalTok{cut\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Story-2_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hike\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Story-2_files/figure-latex/unnamed-chunk-11-2.pdf}
+
+\section{Final Plot}\label{final-plot}
+
+This final plots shows that the Fed typically succeeds in its dual
+mandate. After each cut cycle, we typically see unemployment decrease.
+After each hike cycle, we typically see inflation decrease. This plot,
+however, also shows that contradictory nature of the dual mandate. After
+many cut cycles, we see some increase in inflation, and after many hike
+cycles, we see some increase in unemployment. Historical context is
+important here, as sometimes the Fed may intend to drive up some
+unemployment to ``cool'' the economy. Similarly, it may sometimes intend
+to increase inflation during periods of high disinflation. Regardless,
+this plot helps us determine that cuts typically drive higher employment
+and hikes typically drive lower inflation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}
+  \StringTok{\textquotesingle{}NOTE:\textquotesingle{}}\NormalTok{,}
+  \StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{ Each year corresponds to a period of rate cuts / hikes and a period of observation for unemployment and inflation.\textquotesingle{}}\NormalTok{,}
+  \StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{ The details of each cycle are provided below.\textquotesingle{}}
+\NormalTok{)}
+  
+\ControlFlowTok{for}\NormalTok{ (row }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cut\_cycles)) \{}
+\NormalTok{  cut\_caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{year}\NormalTok{(cut\_cycles[row, }\StringTok{\textquotesingle{}end\textquotesingle{}}\NormalTok{]), }\StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, cut\_cycles[row, }\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{])}
+\NormalTok{  caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(caption, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{     \textquotesingle{}}\NormalTok{, cut\_caption)}
+  
+\NormalTok{  hike\_caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{year}\NormalTok{(hike\_cycles[row, }\StringTok{\textquotesingle{}end\textquotesingle{}}\NormalTok{]), }\StringTok{\textquotesingle{} – \textquotesingle{}}\NormalTok{, hike\_cycles[row, }\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{])}
+\NormalTok{  caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(caption, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{     \textquotesingle{}}\NormalTok{, hike\_caption)}
+\NormalTok{\}}
+
+\NormalTok{caption }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(caption, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{ Sources: Fed Funds Rates data are from FRED. Inflation and Unemployment data are from BLS.\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{final\_plot }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cut\_cycles, hike\_cycles) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{c}\NormalTok{(ff\_change, ue\_change, infl\_change)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(value)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{label =} \FunctionTok{fct\_reorder}\NormalTok{(label, end), }\AttributeTok{end =} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{year}\NormalTok{(end))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(end) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ end, }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{fill =}\NormalTok{ name)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{(), }\AttributeTok{width =} \FloatTok{0.75}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{\textquotesingle{}End of Rate Cycle (Year)\textquotesingle{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textquotesingle{}Change (\%)\textquotesingle{}}\NormalTok{, }
+    \AttributeTok{title =} \StringTok{\textquotesingle{}Fed Funds Rate Cuts / Hikes and Resulting Changes in Unemployment / Inflation\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{caption =}\NormalTok{ caption}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}
+      \StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}azure2\textquotesingle{}}\NormalTok{,}
+      \StringTok{\textquotesingle{}ue\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}wheat2\textquotesingle{}}\NormalTok{,}
+      \StringTok{\textquotesingle{}infl\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}sienna1\textquotesingle{}}
+\NormalTok{    ),}
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}
+      \StringTok{\textquotesingle{}ff\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Fed Funds Rate\textquotesingle{}}\NormalTok{,}
+      \StringTok{\textquotesingle{}ue\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Unemployment\textquotesingle{}}\NormalTok{,}
+      \StringTok{\textquotesingle{}infl\_change\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}Change in Inflation\textquotesingle{}}
+\NormalTok{    ), }
+    \AttributeTok{name =} \ConstantTok{NULL}\NormalTok{,}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{round}\NormalTok{(value,}\DecValTok{1}\NormalTok{), }\AttributeTok{y =} \FunctionTok{ifelse}\NormalTok{(value }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{, value }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, value }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)),}
+    \AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{(}\FloatTok{0.8}\NormalTok{),}
+    \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{size =} \FloatTok{3.2}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title.position =} \StringTok{\textquotesingle{}plot\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{plot.caption =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{),}
+    \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{legend.position =} \StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{, }\AttributeTok{legend.box =} \StringTok{\textquotesingle{}vertical\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{15}\NormalTok{, }\AttributeTok{b =} \DecValTok{10}\NormalTok{))}
+\NormalTok{  )}
+
+\NormalTok{final\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Story-2_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{\textquotesingle{}story2\_waheeb\_finalPlot.png\textquotesingle{}}\NormalTok{, }\AttributeTok{plot =}\NormalTok{ final\_plot, }\AttributeTok{width =} \DecValTok{7}\NormalTok{, }\AttributeTok{height =} \DecValTok{8}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{500}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Conclusion}\label{conclusion}
+
+This analysis highlights the Federal Reserve's attempts to fulfill its
+dual mandate of maintaining price stability and maximizing employment
+through its monetary policy decisions over the past several decades. By
+analyzing both cut and hike cycles, we can observe clear patterns in the
+Fed's actions and their impacts on unemployment and inflation.
+
+After each rate cut cycle, the data shows a consistent reduction in
+unemployment, indicating that cuts are typically associated with
+economic stimulus and increased job opportunities. However, these cut
+cycles also tend to contribute to inflationary pressures, as seen in the
+modest rise in inflation following many cut periods. This aligns with
+economic theory, as lower interest rates generally encourage consumer
+spending and investment, which can spur inflation.
+
+On the other hand, hike cycles are often followed by a reduction in
+inflation, as higher interest rates curb borrowing and spending,
+effectively cooling the economy. The trade-off, however, is that hike
+cycles frequently lead to increases in unemployment, reflecting the
+Fed's delicate balancing act in managing these two competing priorities.
+
+The results also illustrate the contradictory nature of the Fed's dual
+mandate. While each action---cutting or hiking rates---tends to achieve
+its immediate goal (stimulating employment or reducing inflation), it
+often comes at the cost of the other. The cyclical nature of these
+effects, combined with external factors such as recessions and global
+events, complicates the Fed's mission.
+
+Ultimately, the data supports the conclusion that the Federal Reserve
+typically succeeds in influencing unemployment and inflation as
+intended, though the inherent tension between these goals suggests that
+no single policy can achieve both perfectly at all times. Understanding
+these trade-offs, as well as the historical context surrounding each
+cycle, is essential for assessing the Fed's overall effectiveness in
+meeting its objectives.
+
+\end{document}
